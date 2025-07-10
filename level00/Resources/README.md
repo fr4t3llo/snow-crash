@@ -20,7 +20,7 @@ cat /rofs/usr/sbin/john
 ```
 cdiiddwpgswtgt
 ```
-
+ 
 ### Step 3: Decrypt it (likely ROT13)
 Decrypted password: `nottoohardhere`
 
