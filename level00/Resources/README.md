@@ -29,7 +29,6 @@ Decrypted password: `nottoohardhere`
 su flag00
 # enter password: nottoohardhere
 ```
-
 ### Step 5: Get the flag
 ```bash
 getflag
