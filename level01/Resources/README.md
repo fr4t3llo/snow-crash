@@ -1,40 +1,75 @@
-# Resources for level01
+# SnowCrash Level01 Walkthrough
 
-## Walkthrough to capture the flag:
+This walkthrough explains how we retrieved the flag for `level01` in the SnowCrash wargame.
 
-### Step 1: Find files owned by user `flag00`
+---
+
+## Step 1: Read `/etc/passwd`
+
+After logging into `level01`, we run the following command:
+
 ```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
+cat /etc/passwd
 ```
 
-### Step 2: Read the encrypted string
+We observe the following entry among others:
+
+```
+flag01:42hDRfypTqqnw:3001:3001::/home/flag/flag01:/bin/bash
+```
+
+The hash `42hDRfypTqqnw` seems suspicious, suggesting a password is stored in plaintext (likely DES-encrypted).
+
+---
+
+## Step 2: Crack the password using John the Ripper
+
+We save the password hash into a file and use John to crack it:
+
 ```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
+echo 42hDRfypTqqnw > pass
+john --format=descrypt pass
 ```
 
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
+John proceeds with cracking:
 
-### Step 4: Switch to `flag00` user
+```
+Loaded 1 password hash (descrypt, traditional crypt(3) [DES 256/256 AVX2])
+...
+abcdefg          (?)     
+Session completed.
+```
+
+The password is: `abcdefg`
+
+---
+
+## Step 3: Switch to the `flag01` user
+
 ```bash
-su flag00
-# enter password: nottoohardhere
+su flag01
+Password: abcdefg
 ```
 
-### Step 5: Get the flag
+Once logged in, we run the command to get the flag:
+
 ```bash
 getflag
 ```
-> Output:
+
+And we get the token:
+
 ```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
+Check flag.Here is your token : f2av5il02puano7naaf6adaaf
 ```
+
+---
+
+## ✅ Summary
+
+- Found DES hash in `/etc/passwd`
+- Cracked password using `john`
+- Switched to user `flag01`
+- Used `getflag` to retrieve the flag
+
+**Flag:** `f2av5il02puano7naaf6adaaf`
