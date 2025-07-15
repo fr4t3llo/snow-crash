@@ -1,32 +1,24 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>  // for stringstream
 #include <string>
 
-int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " filename\n";
-        return 1;
-    }
-
-    std::ifstream file(argv[1]);
+int main() {
+    std::ifstream file("text");
     if (!file) {
-        std::cerr << "Unable to open file: " << argv[1] << "\n";
+        std::cerr << "Unable to open file: token\n";
         return 1;
     }
 
-    // Read whole file into a string
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string s = buffer.str();
+    std::string encoded;
+    std::getline(file, encoded);  // Read the entire line
+    file.close();
 
-    // Apply your transformation
-    for (size_t i = 0; i < s.size(); i++) {
-        char c = s[i] -= i;  // subtract i from the ASCII value of s[i]
-        std::cout << c;
+    std::string decoded;
+    for (size_t i = 0; i < encoded.length(); i++) {
+        decoded += static_cast<char>(static_cast<int>(encoded[i]) - static_cast<int>(i));
     }
 
-    std::cout << std::endl;
+    std::cout << decoded << std::endl;
 
     return 0;
 }
