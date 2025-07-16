@@ -10,7 +10,7 @@ int main() {
     }
 
     std::string encoded;
-    std::getline(file, encoded);  // Read the entire line
+    std::getline(file, encoded);
     file.close();
 
     std::string decoded;
