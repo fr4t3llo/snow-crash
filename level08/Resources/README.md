@@ -36,7 +36,7 @@ ln -s /home/user/level08/token /tmp/flagg
 
 > Output:
 ```
-Check flag.Here is your token : viuaaale9huek52boumoomioc
+Check flag.Here is your token : quif5eloekouj29ke0vouxean
 ```
 
 ---
@@ -44,7 +44,7 @@ Check flag.Here is your token : viuaaale9huek52boumoomioc
 ## ✅ Final Flag
 
 ```
-viuaaale9huek52boumoomioc
+25749xKZ8L7DkSCwJkT9dyv6f
 ```
 
 ---
@@ -53,4 +53,4 @@ viuaaale9huek52boumoomioc
 
 - **Vulnerability**: Follows user-supplied file path — can be used to trick it into reading protected files via symlinks.
 - **Exploit**: `ln -s /home/user/level08/token /tmp/flagg && ./level08 /tmp/flagg`
-- **Flag**: `viuaaale9huek52boumoomioc`
+- **Flag**: `25749xKZ8L7DkSCwJkT9dyv6f`

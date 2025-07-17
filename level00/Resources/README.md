@@ -21,7 +21,7 @@ cat /rofs/usr/sbin/john
 cdiiddwpgswtgt
 ```
  
-### Step 3: Decrypt it (likely ROT13)
+### Step 3: Decrypt it (likely ROT11)
 Decrypted password: `nottoohardhere`
 
 ### Step 4: Switch to `flag00` user

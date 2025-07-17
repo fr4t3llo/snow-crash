@@ -1,6 +1,6 @@
 # SnowCrash Level01 Walkthrough
 
-This walkthrough explains how we retrieved the flag for `level01` in the SnowCrash wargame.
+This walkthrough explains how we retrieved the flag for `level01`.
 
 ---
 
@@ -29,6 +29,7 @@ We save the password hash into a file and use John to crack it:
 ```bash
 echo 42hDRfypTqqnw > pass
 john --format=descrypt pass
+john --show pass
 ```
 
 John proceeds with cracking:

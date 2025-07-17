@@ -1,6 +1,3 @@
-
-
-
 # SnowCrash Level02 Walkthrough
 
 This walkthrough explains how we retrieved the flag for `level02` in the SnowCrash wargame.
