@@ -1,40 +1,93 @@
-# Resources for level14
+# Level14 - SnowCrash Walkthrough
 
-## Walkthrough to capture the flag:
+## Step 1: No Executable Found
 
-### Step 1: Find files owned by user `flag00`
+In this level, we don’t find any user-owned executable file:
+
 ```bash
-find / -user flag00 2>/dev/null
-```
-> Output:
-```
-/usr/sbin/john
-/rofs/usr/sbin/john
+level14@SnowCrash:~$ ls
+# (nothing interesting or executable here)
 ```
 
-### Step 2: Read the encrypted string
+Running the `getflag` binary directly produces a message indicating failure:
+
 ```bash
-cat /rofs/usr/sbin/john
-```
-> Output:
-```
-cdiiddwpgswtgt
+level14@SnowCrash:~$ getflag
+Check flag.Here is your token :
+Nope there is no token here for you sorry. Try again :)
 ```
 
-### Step 3: Decrypt it (likely ROT13)
-Decrypted password: `nottoohardhere`
+---
 
-### Step 4: Switch to `flag00` user
+## Step 2: Analyzing `getflag` with GDB
+
+Since `getflag` seems to have internal logic based on conditions, we analyze it with GDB:
+
 ```bash
-su flag00
-# enter password: nottoohardhere
+level14@SnowCrash:~$ gdb getflag
+(gdb) disassemble main
 ```
 
-### Step 5: Get the flag
+Inside the disassembled code, we find a call to the `ft_des` function late in the program:
+
+```asm
+...
+0x08048de5 <+1183>: mov    0x804b060,%eax
+0x08048dea <+1188>: mov    %eax,%ebx
+0x08048dec <+1190>: movl   $0x8049220,(%esp)
+0x08048df3 <+1197>: call   0x8048604 <ft_des>
+...
+```
+
+This function likely generates or prints the token when the right conditions are met.
+
+---
+
+## Step 3: Forcing Execution to Token Logic
+
+We can bypass the checks by jumping directly to the instruction that sets things up for `ft_des`.
+
+Set a breakpoint at the start of `main()`:
+
 ```bash
-getflag
+(gdb) break *0x08048946
+Breakpoint 1 at 0x8048946
 ```
-> Output:
+
+Run the program:
+
+```bash
+(gdb) run
 ```
-Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
+
+When the breakpoint hits:
+
+```bash
+(gdb) jump *0x08048de5
+Continuing at 0x8048de5.
 ```
+
+This forces execution to the part of the program that generates the flag.
+
+The program prints the token:
+
+```
+7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ
+```
+
+You may also see some runtime errors like:
+
+```
+*** stack smashing detected ***: /bin/getflag terminated
+Program received signal SIGSEGV, Segmentation fault.
+```
+
+These can be ignored for our purposes, since the flag is already printed before the crash.
+
+---
+
+## Conclusion
+
+We exploited the program flow by jumping to the location where the `getflag` binary would normally execute its token-revealing logic if the correct conditions were met.
+
+**Token:** `7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ`
