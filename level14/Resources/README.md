@@ -28,7 +28,6 @@ level14@SnowCrash:~$ gdb getflag
 (gdb) disassemble main
 ```
 
-
 Inside the disassembled code, we find a call to the `ft_des` function late in the program:
 
 ```asm
